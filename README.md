@@ -34,9 +34,13 @@
             background-color: var(--light-gray);
             color: var(--text-color);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         .container {
+            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
@@ -47,6 +51,7 @@
             color: white;
             padding: 15px 0;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 100%;
         }
         
         .header-content {
@@ -71,8 +76,11 @@
         }
         
         .login-container {
+            width: 100%;
             max-width: 400px;
-            margin: 80px auto;
+            margin: 40px auto;
+            padding: 0 15px;
+            flex: 1;
         }
         
         .card {
@@ -82,6 +90,7 @@
             margin-bottom: 20px;
             overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%;
         }
         
         .card-header {
@@ -147,6 +156,7 @@
             font-weight: 500;
             transition: all 0.3s;
             text-decoration: none;
+            min-width: 120px;
         }
         
         .btn:hover {
@@ -167,6 +177,8 @@
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
         .alert {
@@ -174,6 +186,7 @@
             border-radius: 4px;
             margin-bottom: 15px;
             display: none;
+            width: 100%;
         }
         
         .alert-danger {
@@ -186,6 +199,58 @@
             background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
+        }
+        
+        /* Media queries para diseño responsivo */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .logo h1 {
+                font-size: 20px;
+            }
+            
+            .logo i {
+                font-size: 24px;
+            }
+            
+            .login-container {
+                margin: 30px auto;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .logo h1 {
+                font-size: 18px;
+            }
+            
+            .logo i {
+                font-size: 22px;
+            }
+            
+            .card-header {
+                padding: 12px 15px;
+            }
+            
+            .card-body {
+                padding: 15px;
+            }
+            
+            .login-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .login-container {
+                margin: 20px auto;
+                padding: 0 10px;
+            }
         }
     </style>
 </head>
@@ -213,11 +278,11 @@
                     <form id="login-form">
                         <div class="form-group">
                             <label for="username"><i class="fas fa-user"></i> Usuario</label>
-                            <input type="text" id="username" class="form-control" placeholder="Ingrese su usuario" required>
+                            <input type="text" id="username" class="form-control" placeholder="Ingrese su usuario" autocomplete="username" required>
                         </div>
                         <div class="form-group">
                             <label for="password"><i class="fas fa-key"></i> Contraseña</label>
-                            <input type="password" id="password" class="form-control" placeholder="Ingrese su contraseña" required>
+                            <input type="password" id="password" class="form-control" placeholder="Ingrese su contraseña" autocomplete="current-password" required>
                         </div>
                         
                         <div class="login-buttons">
@@ -267,9 +332,9 @@
                 // Para usuario normal, cualquier usuario y contraseña son válidos
                 showMessage('¡Acceso exitoso como usuario regular!', 'alert-success');
                 
-                // Redirigir a página de Mundialito
+                // Redirigir a página del Mundial
                 setTimeout(() => {
-                    window.location.href = 'mundialito.html';
+                    window.location.href = 'https://emmavhp.github.io/mundial/';
                 }, 1500);
             });
             
@@ -287,12 +352,24 @@
                 if (username === 'admin' && password === 'admin123') {
                     showMessage('¡Acceso exitoso como administrador!', 'alert-success');
                     
-                    // Redirigir a página de Mundialito
+                    // Redirigir a página de Administración
                     setTimeout(() => {
-                        window.location.href = 'mundialito.html';
+                        window.location.href = 'https://emmavhp.github.io/admin/';
                     }, 1500);
                 } else {
                     showMessage('Credenciales de administrador incorrectas', 'alert-danger');
+                }
+            });
+
+            // Prevenir el envío del formulario al presionar Enter
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+            });
+
+            // Funcionalidad para enviar al presionar Enter
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    userLoginBtn.click();
                 }
             });
         });
